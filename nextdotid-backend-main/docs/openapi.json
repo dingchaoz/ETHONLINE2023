@@ -1,0 +1,404 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "healthCheck",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The Health Check is successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {},
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The Health Check is not successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        },
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/proof/key-pair": {
+      "get": {
+        "operationId": "getKeyPair",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "v1/proof"
+        ]
+      }
+    },
+    "/v1/proof/payload": {
+      "post": {
+        "operationId": "getPayload",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetPayloadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "v1/proof"
+        ]
+      }
+    },
+    "/v1/proof/payload/twitter": {
+      "post": {
+        "operationId": "getTwitterPayload",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetTwitterPayloadDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "v1/proof"
+        ]
+      }
+    },
+    "/v1/proof": {
+      "post": {
+        "operationId": "verifyProof",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyProofDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "v1/proof"
+        ]
+      },
+      "get": {
+        "operationId": "checkAvatarStatus",
+        "parameters": [
+          {
+            "name": "platform",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "identity",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "v1/proof"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "nextdotid-backend",
+    "description": "",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "GetPayloadDto": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "identity": {
+            "type": "string"
+          },
+          "public_key": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "action",
+          "platform",
+          "identity",
+          "public_key"
+        ]
+      },
+      "GetTwitterPayloadDto": {
+        "type": "object",
+        "properties": {
+          "privateKey": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "identity": {
+            "type": "string"
+          },
+          "public_key": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "privateKey",
+          "action",
+          "identity",
+          "public_key"
+        ]
+      },
+      "VerifyProofDto": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "identity": {
+            "type": "string"
+          },
+          "public_key": {
+            "type": "string"
+          },
+          "proof_location": {
+            "type": "string"
+          },
+          "extra": {
+            "type": "object"
+          },
+          "uuid": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "action",
+          "platform",
+          "identity",
+          "public_key",
+          "proof_location",
+          "extra",
+          "uuid",
+          "created_at"
+        ]
+      }
+    }
+  }
+}

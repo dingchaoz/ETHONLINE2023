@@ -29,8 +29,8 @@ contract OracleSandboxScript is Script {
         minimumBond = vm.envOr("MINIMUM_BOND", uint256(100e18));
         defaultLiveness = uint64(vm.envOr("DEFAULT_LIVENESS", uint64(7200)));
         defaultCurrency = vm.envOr("DEFAULT_CURRENCY", address(0));
-        defaultCurrencyName = vm.envOr("DEFAULT_CURRENCY_NAME", string("Default Bond Token"));
-        defaultCurrencySymbol = vm.envOr("DEFAULT_CURRENCY_SYMBOL", string("DBT"));
+        defaultCurrencyName = vm.envOr("DEFAULT_CURRENCY_NAME", string("APECoin"));
+        defaultCurrencySymbol = vm.envOr("DEFAULT_CURRENCY_SYMBOL", string("APE"));
         defaultCurrencyDecimals = uint8(vm.envOr("DEFAULT_CURRENCY_DECIMALS", uint8(18)));
 
         vm.startBroadcast();

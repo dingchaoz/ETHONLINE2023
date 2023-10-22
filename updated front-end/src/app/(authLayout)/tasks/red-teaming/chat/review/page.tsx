@@ -15,6 +15,72 @@ import { useRedTeamingStore } from '@/store/redTeaming';
 import { OOV3ABI } from '@/abi/OOV3ABI';
 import LoadingModal from '@/app/(authLayout)/tasks/red-teaming/chat/LoadingModal';
 import SuccessModal from '@/app/(authLayout)/tasks/red-teaming/chat/SuccessModal';
+import * as LitJsSdk from "@lit-protocol/lit-node-client";
+
+const client = new LitJsSdk.LitNodeClient();
+await client.connect();
+window.litNodeClient = client;
+
+class Lit {
+  private litNodeClient
+
+  async connect() {
+    await client.connect()
+    this.litNodeClient = client
+  }
+}
+
+export default new Lit()
+const chain = "ethereum";
+
+export async function encrypt() {
+  const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain: "ethereum" });
+  const accessControlConditions = [
+    {
+      contractAddress: "",
+      standardContractType: "",
+      chain: "ethereum",
+      method: "eth_getBalance",
+      parameters: [":userAddress", "latest"],
+      returnValueTest: {
+        comparator: ">=",
+        value: "1000000000000", // 0.000001 ETH
+      },
+    },
+  ];
+  const ipfsCid = await LitJsSdk.encryptToIpfs({
+    authSig,
+    accessControlConditions,
+    chain,
+    string: "Encrypt & store on IPFS seamlessly with Lit 😎",
+  //   file, // If you want to encrypt a file instead of a string
+    litNodeClient: this.litNodeClient,
+    infuraId: 'YOUR INFURA PROJECT ID',
+    infuraSecretKey: 'YOUR INFURA API-SECRET-KEY',
+  });
+}
+
+export async function decrypt(ipfsCid:string) {
+  const authSig = await LitJsSdk.checkAndSignAuthMessage({ chain: "ethereum" });
+  const accessControlConditions = [
+    {
+      contractAddress: "",
+      standardContractType: "",
+      chain: "ethereum",
+      method: "eth_getBalance",
+      parameters: [":userAddress", "latest"],
+      returnValueTest: {
+        comparator: ">=",
+        value: "1000000000000", // 0.000001 ETH
+      },
+    },
+  ];
+  const decryptedString = await LitJsSdk.decryptFromIpfs({
+    authSig,
+    ipfsCid, // This is returned from the above encryption
+    litNodeClient: this.litNodeClient,
+  });
+}
 
 export default function Review() {
   const router = useRouter();

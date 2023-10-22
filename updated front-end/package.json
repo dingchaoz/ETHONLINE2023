@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@lit-protocol/lit-node-client":"2.2.61",
     "@heroicons/react": "^2.0.18",
     "@sismo-core/sismo-connect-react": "^0.0.23",
     "@sismo-core/sismo-connect-server": "^0.0.23",
